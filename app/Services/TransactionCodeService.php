@@ -2,15 +2,22 @@
 
 namespace App\Services;
 
+use App\Models\Transaction;
+
 class TransactionCodeService
 {
-    public function generate(string $prefix): string
+    public function generate(string $prefix = 'TRX'): string
     {
+        $today = now()->format('Ymd');
+
+        $last = Transaction::whereDate('created_at', today())
+            ->count() + 1;
+
         return sprintf(
-            '%s-%s-%04d',
-            strtoupper($prefix),
-            now()->format('YmdHis'),
-            random_int(1, 9999)
+            '%s-%s-%05d',
+            $prefix,
+            $today,
+            $last
         );
     }
 }
