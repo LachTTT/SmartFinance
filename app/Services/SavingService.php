@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\DB;
 
 class SavingService
 {
+    public function __construct(
+        private AccountBalanceService $balanceService,
+        private TransactionCodeService $codeService
+    ) {}
+
     public function deposit(array $data): SavingTransaction
     {
         return DB::transaction(function () use ($data) {
@@ -17,13 +22,17 @@ class SavingService
 
             $saving = Saving::findOrFail($data['saving_id']);
 
-            if ($account->balance < $data['amount']) {
-                throw new \Exception('Saldo tidak mencukupi.');
-            }
+            $this->balanceService->decrease(
+                $account,
+                $data['amount']
+            );
 
-            $account->decrement('balance', $data['amount']);
+            $saving->increment(
+                'current_amount',
+                $data['amount']
+            );
 
-            $saving->increment('current_amount', $data['amount']);
+            $data['code'] = $this->codeService->generate('SVG');
 
             return SavingTransaction::create($data);
         });

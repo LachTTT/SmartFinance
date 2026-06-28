@@ -11,7 +11,7 @@ class AccountService
     {
         return Account::with('accountType')
             ->where('user_id', Auth::id())
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->get();
     }
 
@@ -38,23 +38,5 @@ class AccountService
     public function delete(Account $account): bool
     {
         return $account->delete();
-    }
-
-    public function activate(Account $account): Account
-    {
-        $account->update([
-            'is_active' => true
-        ]);
-
-        return $account->refresh();
-    }
-
-    public function deactivate(Account $account): Account
-    {
-        $account->update([
-            'is_active' => false
-        ]);
-
-        return $account->refresh();
     }
 }
