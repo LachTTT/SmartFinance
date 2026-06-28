@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Account;
 use App\Models\Saving;
 use App\Models\SavingTransaction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SavingService
@@ -36,5 +37,21 @@ class SavingService
 
             return SavingTransaction::create($data);
         });
+    }
+    public function create(array $data): Saving
+    {
+        $data['user_id'] = Auth::id();
+
+        return Saving::create($data);
+    }
+    public function update(Saving $saving, array $data): Saving
+    {
+        $saving->update($data);
+
+        return $saving->refresh();
+    }
+    public function delete(Saving $saving): bool
+    {
+        return $saving->delete();
     }
 }

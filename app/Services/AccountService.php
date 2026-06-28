@@ -20,6 +20,12 @@ class AccountService
         return Account::where('user_id', Auth::id())
             ->findOrFail($id);
     }
+    public function getByUuid(string $uuid): Account
+    {
+        return Account::where('user_id', Auth::id())
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+    }
 
     public function create(array $data): Account
     {
@@ -28,15 +34,19 @@ class AccountService
         return Account::create($data);
     }
 
-    public function update(Account $account, array $data): Account
+    public function update(string $uuid, array $data): Account
     {
+        $account = $this->getByUuid($uuid);
+
         $account->update($data);
 
         return $account->refresh();
     }
 
-    public function delete(Account $account): bool
+    public function delete(string $uuid): bool
     {
+        $account = $this->getByUuid($uuid);
+
         return $account->delete();
     }
 }

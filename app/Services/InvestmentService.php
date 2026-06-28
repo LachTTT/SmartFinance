@@ -33,4 +33,14 @@ class InvestmentService
             return Investment::create($data);
         });
     }
+    public function update(Investment $investment, array $data): Investment
+    {
+        $investment->update($data);
+
+        return $investment->refresh();
+    }
+    public function delete(Investment $investment): bool
+    {
+        return $investment->delete();
+    }
 }
