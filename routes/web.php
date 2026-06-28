@@ -1,9 +1,22 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SavingController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransferController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+/*
+|--------------------------------------------------------------------------
+| Public Route
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -14,14 +27,111 @@ Route::get('/', function () {
     ]);
 });
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', 'role:admin,user'])->name('dashboard');
+})->middleware(['auth', 'verified', 'role:admin,user'])
+    ->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+/*
+|--------------------------------------------------------------------------
+| Protected Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Profile
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accounts
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('accounts', AccountController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Categories
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('categories', CategoryController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Transactions
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('transactions', TransactionController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Transfers
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('transfers', TransferController::class)
+        ->only([
+            'index',
+            'create',
+            'store'
+        ]);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Savings
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('savings', SavingController::class);
+
+    Route::post(
+        '/savings/deposit',
+        [SavingController::class, 'deposit']
+    )->name('savings.deposit');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Investments
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('investments', InvestmentController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Budgets
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('budgets', BudgetController::class);
 });
+
+/*
+|--------------------------------------------------------------------------
+| Authentication Routes
+|--------------------------------------------------------------------------
+*/
 
 require __DIR__ . '/auth.php';
