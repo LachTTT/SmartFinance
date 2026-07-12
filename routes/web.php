@@ -67,7 +67,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('accounts', AccountController::class);
+    Route::resource('accounts', AccountController::class)->except('show');;
 
     /*
     |--------------------------------------------------------------------------
@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('categories', CategoryController::class);
+    Route::resource('categories', CategoryController::class)->except('show');;
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +83,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('transactions', TransactionController::class);
+    Route::resource('transactions', TransactionController::class)->except('show');;
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
             'index',
             'create',
             'store'
-        ]);
+        ])->except('show');;
 
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +104,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('savings', SavingController::class);
+    Route::resource('savings', SavingController::class)->except('show');;
 
     Route::post(
         '/savings/deposit',
@@ -117,7 +117,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('investments', InvestmentController::class);
+    Route::resource('investments', InvestmentController::class)->except('show');;
 
     /*
     |--------------------------------------------------------------------------
@@ -125,7 +125,7 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource('budgets', BudgetController::class);
+    Route::resource('budgets', BudgetController::class)->except('show');;
 });
 
 /*

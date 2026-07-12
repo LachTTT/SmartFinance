@@ -18,7 +18,7 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Account/Index', [
+        return Inertia::render('Accounts/Index', [
             'accounts' => $this->accountService->getAll(),
         ]);
     }
@@ -28,7 +28,7 @@ class AccountController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Account/Create');
+        return Inertia::render('Accounts/Create');
     }
 
     /**
@@ -46,21 +46,11 @@ class AccountController extends Controller
     }
 
     /**
-     * Detail account
-     */
-    public function show(string $uuid)
-    {
-        return Inertia::render('Account/Show', [
-            'account' => $this->accountService->getByUuid($uuid),
-        ]);
-    }
-
-    /**
-     * Form edit
+     * Form edit account
      */
     public function edit(string $uuid)
     {
-        return Inertia::render('Account/Edit', [
+        return Inertia::render('Accounts/Edit', [
             'account' => $this->accountService->getByUuid($uuid),
         ]);
     }
@@ -72,7 +62,6 @@ class AccountController extends Controller
         UpdateAccountRequest $request,
         string $uuid
     ) {
-
         $this->accountService->update(
             $uuid,
             $request->validated()
