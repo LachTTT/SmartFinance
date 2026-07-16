@@ -1,4 +1,4 @@
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 import { useState } from "react";
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -13,15 +13,22 @@ export default function Index({ accounts }) {
     const [openDelete, setOpenDelete] = useState(false);
     const [selected, setSelected] = useState(null);
 
+    const handleEdit = (account) => {
+        router.get(route("accounts.edit", account.id));
+    };
+
     const handleDelete = (account) => {
         setSelected(account);
         setOpenDelete(true);
     };
 
     const confirmDelete = () => {
-        console.log("Delete:", selected);
-
-        setOpenDelete(false);
+        router.delete(route("accounts.destroy", selected.id), {
+            onSuccess: () => {
+                setOpenDelete(false);
+                setSelected(null);
+            },
+        });
     };
 
     return (
@@ -48,13 +55,17 @@ export default function Index({ accounts }) {
                 <Card>
                     <AccountTable
                         accounts={accounts}
+                        onEdit={handleEdit}
                         onDelete={handleDelete}
                     />
                 </Card>
 
                 <DeleteModal
                     open={openDelete}
-                    onClose={() => setOpenDelete(false)}
+                    onClose={() => {
+                        setOpenDelete(false);
+                        setSelected(null);
+                    }}
                     onConfirm={confirmDelete}
                 />
             </div>

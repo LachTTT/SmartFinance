@@ -1,6 +1,5 @@
-import Modal from "@/Components/Modal";
-import SecondaryButton from "@/Components/SecondaryButton";
-import DangerButton from "@/Components/DangerButton";
+import Modal from "@/Components/UI/Modal";
+import Button from "@/Components/UI/Button";
 
 export default function DeleteModal({
     open,
@@ -11,29 +10,27 @@ export default function DeleteModal({
     processing = false,
 }) {
     return (
-        <Modal show={open} onClose={onClose}>
-            <div className="p-6">
-                <h2 className="text-xl font-bold text-gray-900">
-                    {title}
-                </h2>
-
-                <p className="mt-3 text-gray-600">
-                    {message}
-                </p>
-
-                <div className="mt-6 flex justify-end gap-3">
-                    <SecondaryButton onClick={onClose}>
+        <Modal
+            open={open}
+            onClose={onClose}
+            title={title}
+            footer={
+                <>
+                    <Button variant="secondary" onClick={onClose}>
                         Cancel
-                    </SecondaryButton>
+                    </Button>
 
-                    <DangerButton
+                    <Button
+                        variant="danger"
                         onClick={onConfirm}
                         disabled={processing}
                     >
                         Delete
-                    </DangerButton>
-                </div>
-            </div>
+                    </Button>
+                </>
+            }
+        >
+            <p className="text-gray-600">{message}</p>
         </Modal>
     );
 }

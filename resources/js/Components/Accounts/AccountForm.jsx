@@ -6,21 +6,21 @@ import Select from "@/Components/UI/Select";
 
 export default function AccountForm({
     account = null,
-    submitLabel = "Save",
+    accountTypes = [],
+    submitLabel,
     onSubmit,
 }) {
     const { data, setData, processing, errors } = useForm({
+        account_type_id: account?.account_type_id ?? "",
         name: account?.name ?? "",
-        type: account?.type ?? "cash",
         balance: account?.balance ?? "",
-        icon: account?.icon ?? "wallet",
         color: account?.color ?? "#10B981",
+        icon: account?.icon ?? "",
         is_active: account?.is_active ?? true,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
         onSubmit(data);
     };
 
@@ -33,19 +33,14 @@ export default function AccountForm({
                 onChange={(e) => setData("name", e.target.value)}
                 error={errors.name}
             />
-
             <Select
                 label="Account Type"
-                value={data.type}
-                onChange={(e) => setData("type", e.target.value)}
-                error={errors.type}
-                options={[
-                    { label: "Cash", value: "cash" },
-                    { label: "Bank", value: "bank" },
-                    { label: "E-Wallet", value: "ewallet" },
-                    { label: "Credit Card", value: "credit_card" },
-                    { label: "Investment", value: "investment" },
-                ]}
+                value={data.account_type_id}
+                onChange={(e) => setData("account_type_id", e.target.value)}
+                options={accountTypes.map((type) => ({
+                    label: type.name,
+                    value: type.id,
+                }))}
             />
 
             <Input
@@ -57,13 +52,7 @@ export default function AccountForm({
                 error={errors.balance}
             />
 
-            <Input
-                label="Icon"
-                placeholder="wallet"
-                value={data.icon}
-                onChange={(e) => setData("icon", e.target.value)}
-                error={errors.icon}
-            />
+            
 
             <Input
                 type="color"
