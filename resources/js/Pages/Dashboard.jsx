@@ -1,5 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-
+import { Head } from "@inertiajs/react";
 import SummaryCard from "@/Components/Dashboard/SummaryCard";
 import WalletCard from "@/Components/Dashboard/WalletCard";
 import RecentTransactions from "@/Components/Dashboard/RecentTransactions";
@@ -16,10 +16,8 @@ import {
 
 export default function Dashboard() {
     return (
-        <AuthenticatedLayout
-            title="Dashboard"
-            subtitle="Overview of your financial activity"
-        >
+        <AuthenticatedLayout subtitle="Overview of your financial activity">
+            <Head title="Dashboard" />
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 <SummaryCard
                     title="Total Balance"

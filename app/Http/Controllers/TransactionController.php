@@ -7,6 +7,9 @@ use App\Models\Transaction;
 use App\Services\TransactionService;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
+use App\Models\Account;
+use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -23,7 +26,14 @@ class TransactionController extends Controller
 
     public function create()
     {
-        return Inertia::render('Transaction/Create');
+        return Inertia::render('Transaction/Create', [
+            'accounts' => Account::where('user_id', Auth::id())->get(),
+
+            'categories' => Category::where(function ($q) {
+                $q->where('user_id', Auth::id())
+                    ->orWhereNull('user_id');
+            })->get(),
+        ]);
     }
 
     public function store(StoreTransactionRequest $request)
@@ -46,6 +56,11 @@ class TransactionController extends Controller
     {
         return Inertia::render('Transaction/Edit', [
             'transaction' => $transaction,
+            'accounts' => Account::where('user_id', Auth::id())->get(),
+            'categories' => Category::where(function ($q) {
+                $q->where('user_id', Auth::id())
+                    ->orWhereNull('user_id');
+            })->get(),
         ]);
     }
 

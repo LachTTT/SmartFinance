@@ -48,23 +48,19 @@ class TransactionService
             $account = Account::where('user_id', Auth::id())
                 ->findOrFail($data['account_id']);
 
-            // Update saldo
             if ($data['type'] === 'income') {
-
                 $this->balanceService->increase(
                     $account,
                     $data['amount']
                 );
             } else {
-
                 $this->balanceService->decrease(
                     $account,
                     $data['amount']
                 );
             }
 
-            // Tambahkan data otomatis
-            $data['uuid'] = Str::uuid()->toString();
+            $data['uuid'] = (string) Str::uuid();
 
             $data['transaction_code'] = $this->codeService
                 ->generate('TRX');
