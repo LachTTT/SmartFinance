@@ -10,10 +10,26 @@ use Illuminate\Support\Facades\DB;
 class TransferService
 {
     public function __construct(
-        private AccountBalanceService $balanceService,
-        private TransactionCodeService $codeService
+        private AccountBalanceService $balanceService
     ) {}
 
+    /**
+     * Semua transfer milik user
+     */
+    public function getAll()
+    {
+        return Transfer::with([
+            'fromAccount',
+            'toAccount',
+        ])
+            ->where('user_id', Auth::id())
+            ->latest('transfer_date')
+            ->get();
+    }
+
+    /**
+     * Membuat transfer
+     */
     public function transfer(array $data): Transfer
     {
         return DB::transaction(function () use ($data) {
@@ -31,8 +47,6 @@ class TransferService
             );
 
             $data['user_id'] = Auth::id();
-
-            $data['code'] = $this->codeService->generate('TRF');
 
             return Transfer::create($data);
         });
