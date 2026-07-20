@@ -9,7 +9,7 @@ use App\Http\Controllers\SavingController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransferController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,9 +27,8 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', 'role:admin,user'])
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'role:admin,user'])
     ->name('dashboard');
 
 /*

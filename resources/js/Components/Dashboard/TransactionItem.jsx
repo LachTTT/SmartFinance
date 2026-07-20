@@ -1,13 +1,11 @@
 import clsx from "clsx";
-import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import {
+    ArrowDownLeft,
+    ArrowUpRight,
+} from "lucide-react";
 
 export default function TransactionItem({
-    title,
-    category,
-    account,
-    amount,
-    date,
-    type,
+    transaction,
 }) {
     return (
         <div className="flex items-center justify-between rounded-xl border border-gray-100 p-4 transition hover:bg-gray-50">
@@ -15,21 +13,32 @@ export default function TransactionItem({
                 <div
                     className={clsx(
                         "flex h-12 w-12 items-center justify-center rounded-full",
-                        type === "income" ? "bg-emerald-100" : "bg-red-100",
+                        transaction.type === "income"
+                            ? "bg-emerald-100"
+                            : "bg-red-100"
                     )}
                 >
-                    {type === "income" ? (
-                        <ArrowDownLeft className="text-emerald-600" size={22} />
+                    {transaction.type === "income" ? (
+                        <ArrowDownLeft
+                            className="text-emerald-600"
+                            size={22}
+                        />
                     ) : (
-                        <ArrowUpRight className="text-red-600" size={22} />
+                        <ArrowUpRight
+                            className="text-red-600"
+                            size={22}
+                        />
                     )}
                 </div>
 
                 <div>
-                    <h3 className="font-semibold text-gray-900">{title}</h3>
+                    <h3 className="font-semibold">
+                        {transaction.title}
+                    </h3>
 
                     <p className="text-sm text-gray-500">
-                        {category} • {account}
+                        {transaction.category?.name} •{" "}
+                        {transaction.account?.name}
                     </p>
                 </div>
             </div>
@@ -38,14 +47,23 @@ export default function TransactionItem({
                 <p
                     className={clsx(
                         "font-bold",
-                        type === "income" ? "text-emerald-600" : "text-red-600",
+                        transaction.type === "income"
+                            ? "text-emerald-600"
+                            : "text-red-600"
                     )}
                 >
-                    {type === "income" ? "+" : "-"}
-                    {amount}
+                    {transaction.type === "income"
+                        ? "+"
+                        : "-"}
+                    Rp{" "}
+                    {Number(
+                        transaction.amount
+                    ).toLocaleString("id-ID")}
                 </p>
 
-                <p className="text-sm text-gray-500">{date}</p>
+                <p className="text-sm text-gray-500">
+                    {transaction.transaction_date}
+                </p>
             </div>
         </div>
     );

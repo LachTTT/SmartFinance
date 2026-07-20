@@ -1,27 +1,38 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+
 import SummaryCard from "@/Components/Dashboard/SummaryCard";
 import WalletCard from "@/Components/Dashboard/WalletCard";
 import RecentTransactions from "@/Components/Dashboard/RecentTransactions";
+import BudgetProgress from "@/Components/Dashboard/BudgetProgress";
+import SavingProgress from "@/Components/Dashboard/SavingProgress";
+import InvestmentSummary from "@/Components/Dashboard/InvestmentSummary";
 
 import {
     Wallet,
     ArrowDownCircle,
     ArrowUpCircle,
     PiggyBank,
-    Landmark,
-    CreditCard,
-    Smartphone,
 } from "lucide-react";
 
-export default function Dashboard() {
+export default function Dashboard({
+    summary,
+    accounts,
+    transactions,
+    budgets,
+    savings,
+    investments,
+}) {
     return (
         <AuthenticatedLayout subtitle="Overview of your financial activity">
             <Head title="Dashboard" />
+
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
                 <SummaryCard
                     title="Total Balance"
-                    value="Rp12.500.000"
+                    value={`Rp ${Number(summary.balance ?? 0).toLocaleString(
+                        "id-ID",
+                    )}`}
                     icon={Wallet}
                     color="emerald"
                     description="Current balance"
@@ -29,23 +40,29 @@ export default function Dashboard() {
 
                 <SummaryCard
                     title="Income"
-                    value="Rp8.200.000"
+                    value={`Rp ${Number(summary.income ?? 0).toLocaleString(
+                        "id-ID",
+                    )}`}
                     icon={ArrowDownCircle}
                     color="blue"
-                    description="This month"
+                    description="Total income"
                 />
 
                 <SummaryCard
                     title="Expense"
-                    value="Rp3.400.000"
+                    value={`Rp ${Number(summary.expense ?? 0).toLocaleString(
+                        "id-ID",
+                    )}`}
                     icon={ArrowUpCircle}
                     color="red"
-                    description="This month"
+                    description="Total expense"
                 />
 
                 <SummaryCard
                     title="Saving"
-                    value="Rp2.800.000"
+                    value={`Rp ${Number(summary.saving ?? 0).toLocaleString(
+                        "id-ID",
+                    )}`}
                     icon={PiggyBank}
                     color="amber"
                     description="Current saving"
@@ -58,42 +75,26 @@ export default function Dashboard() {
                 </h2>
 
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
-                    <WalletCard
-                        name="Cash"
-                        type="Cash"
-                        balance="Rp500.000"
-                        icon={Wallet}
-                        color="emerald"
-                    />
-
-                    <WalletCard
-                        name="BCA"
-                        type="Bank"
-                        balance="Rp4.500.000"
-                        icon={Landmark}
-                        color="blue"
-                    />
-
-                    <WalletCard
-                        name="DANA"
-                        type="E-Wallet"
-                        balance="Rp1.200.000"
-                        icon={Smartphone}
-                        color="sky"
-                    />
-
-                    <WalletCard
-                        name="GoPay"
-                        type="E-Wallet"
-                        balance="Rp850.000"
-                        icon={CreditCard}
-                        color="purple"
-                    />
+                    {accounts.length > 0 ? (
+                        accounts.map((account) => (
+                            <WalletCard key={account.id} account={account} />
+                        ))
+                    ) : (
+                        <p className="text-gray-500">No accounts found.</p>
+                    )}
                 </div>
             </div>
 
             <div className="mt-8">
-                <RecentTransactions />
+                <RecentTransactions transactions={transactions} />
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 gap-6 xl:grid-cols-3">
+                <BudgetProgress budgets={budgets} />
+
+                <SavingProgress savings={savings} />
+
+                <InvestmentSummary investments={investments} />
             </div>
         </AuthenticatedLayout>
     );
