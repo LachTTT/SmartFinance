@@ -14,6 +14,14 @@ class BudgetService
         return Budget::create($data);
     }
 
+    public function getAll()
+    {
+        return Budget::with('category')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+    }
+
     public function update(Budget $budget, array $data): Budget
     {
         $budget->update($data);
