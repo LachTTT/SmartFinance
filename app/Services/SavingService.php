@@ -15,6 +15,14 @@ class SavingService
         private TransactionCodeService $codeService
     ) {}
 
+    public function getAll()
+    {
+        return Saving::with('account')
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+    }
+
     public function deposit(array $data): SavingTransaction
     {
         return DB::transaction(function () use ($data) {

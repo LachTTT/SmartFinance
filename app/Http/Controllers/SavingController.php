@@ -8,6 +8,7 @@ use App\Services\SavingService;
 use App\Http\Requests\Saving\StoreSavingRequest;
 use App\Http\Requests\Saving\UpdateSavingRequest;
 use App\Http\Requests\SavingTransaction\StoreSavingTransactionRequest;
+use App\Models\Account;
 
 class SavingController extends Controller
 {
@@ -17,12 +18,16 @@ class SavingController extends Controller
 
     public function index()
     {
-        return Inertia::render('Saving/Index');
+        return Inertia::render('Saving/Index', [
+            'savings' => $this->savingService->getAll(),
+        ]);
     }
 
     public function create()
     {
-        return Inertia::render('Saving/Create');
+        return Inertia::render('Saving/Create', [
+            'accounts' => Account::where('user_id', auth()->id())->get(),
+        ]);
     }
 
     public function store(StoreSavingRequest $request)
@@ -36,8 +41,11 @@ class SavingController extends Controller
 
     public function edit(Saving $saving)
     {
+        abort_if($saving->user_id !== auth()->id(), 403);
+
         return Inertia::render('Saving/Edit', [
             'saving' => $saving,
+            'accounts' => Account::where('user_id', auth()->id())->get(),
         ]);
     }
 
