@@ -11,7 +11,13 @@ export default function TransferRow({ transfer }) {
                 Rp {Number(transfer.amount).toLocaleString("id-ID")}
             </td>
 
-            <td className="px-6 py-4">{transfer.transfer_date}</td>
+            <td className="px-6 py-4">
+                {new Date(transfer.transfer_date).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                })}
+            </td>
 
             <td className="px-6 py-4">
                 <div className="flex items-center gap-2">
