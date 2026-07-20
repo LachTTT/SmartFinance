@@ -14,6 +14,17 @@ class InvestmentService
         private TransactionCodeService $codeService
     ) {}
 
+    public function getAll()
+    {
+        return Investment::with([
+            'account',
+            'investmentType',
+        ])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+    }
+
     public function buy(array $data): Investment
     {
         return DB::transaction(function () use ($data) {
