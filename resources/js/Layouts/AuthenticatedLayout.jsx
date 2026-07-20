@@ -1,16 +1,38 @@
+import { useState } from "react";
 import Sidebar from "./Sidebar/Sidebar";
 import Navbar from "./Navbar/Navbar";
 
 export default function AuthenticatedLayout({ children }) {
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+
     return (
-        <div className="flex min-h-screen bg-gray-100">
-            <Sidebar />
+        <div className="min-h-screen bg-gray-100">
+            {/* Sidebar */}
+            <Sidebar open={sidebarOpen} />
 
-            <div className="flex flex-1 flex-col">
-                <Navbar />
+            {/* Main Area */}
+            <div
+                className={`
+                    transition-all duration-300
+                    ${sidebarOpen ? "ml-72" : "ml-0"}
+                `}
+            >
+                <Navbar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-                <main className="flex-1 p-8">{children}</main>
+                <main className="p-8">{children}</main>
             </div>
+
+            {/* Mobile Overlay */}
+            {sidebarOpen && (
+                <div
+                    onClick={() => setSidebarOpen(false)}
+                    className="
+                        fixed inset-0
+                        bg-black/30
+                        md:hidden
+                    "
+                />
+            )}
         </div>
     );
 }
