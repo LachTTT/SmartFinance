@@ -15,12 +15,14 @@ export default function RecentTransactions({ transactions = [] }) {
 
             <div className="space-y-3">
                 {transactions.length ? (
-                    transactions.map((transaction) => (
-                        <TransactionItem
-                            key={transaction.id}
-                            transaction={transaction}
-                        />
-                    ))
+                    transactions
+                        .slice(0, 5)
+                        .map((transaction) => (
+                            <TransactionItem
+                                key={transaction.id}
+                                transaction={transaction}
+                            />
+                        ))
                 ) : (
                     <p className="text-center text-gray-500 py-8">
                         No recent transactions.
