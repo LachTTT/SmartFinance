@@ -1,21 +1,17 @@
 import AccountRow from "./AccountRow";
 
-export default function AccountTable({
-    accounts,
-    onEdit,
-    onDelete,
-}) {
+export default function AccountTable({ accounts, onEdit, onDelete }) {
     return (
         <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
-            <table className="w-full">
+            <table className="w-full text-balance">
                 <thead className="bg-gray-100">
                     <tr>
-                        <th className="px-6 py-4 text-left">Icon</th>
-                        <th className="px-6 py-4 text-left">Name</th>
-                        <th className="px-6 py-4 text-left">Type</th>
-                        <th className="px-6 py-4 text-left">Balance</th>
-                        <th className="px-6 py-4 text-left">Status</th>
-                        <th className="px-6 py-4 text-center">Action</th>
+                        <th className="px-6 py-4">Icon</th>
+                        <th className="px-6 py-4">Name</th>
+                        <th className="px-6 py-4">Type</th>
+                        <th className="px-6 py-4">Balance</th>
+                        <th className="px-6 py-4">Status</th>
+                        <th className="px-6 py-4">Action</th>
                     </tr>
                 </thead>
 

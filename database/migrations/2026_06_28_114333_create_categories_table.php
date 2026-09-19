@@ -27,10 +27,6 @@ return new class extends Migration
                 'expense'
             ]);
 
-            $table->string('icon')->nullable();
-
-            $table->string('color')->nullable();
-
             $table->boolean('is_default')
                 ->default(false);
 

@@ -18,10 +18,10 @@ export default function AccountRow({ account, onEdit, onDelete }) {
     const Icon = icons[account.account_type?.icon] || Wallet;
 
     return (
-        <tr className="border-b hover:bg-gray-50">
+        <tr className="border-b hover:bg-gray-50 text-center">
             <td className="px-6 py-4">
                 <div
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-white"
+                    className="mx-auto flex h-10 w-10 items-center justify-center rounded-full text-white"
                     style={{
                         backgroundColor: account.color || "#10B981",
                     }}
@@ -51,7 +51,7 @@ export default function AccountRow({ account, onEdit, onDelete }) {
             </td>
 
             <td className="px-6 py-4">
-                <div className="flex gap-2">
+                <div className="flex gap-2 justify-center">
                     <button
                         onClick={() => onEdit(account)}
                         className="rounded-lg bg-blue-500 p-2 text-white transition hover:bg-blue-600"

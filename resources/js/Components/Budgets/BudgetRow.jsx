@@ -21,16 +21,6 @@ export default function BudgetRow({ budget, onEdit, onDelete }) {
         <tr className="border-b hover:bg-gray-50">
             <td className="px-6 py-4">
                 <div className="flex items-center gap-3">
-                    <div
-                        className="flex h-10 w-10 items-center justify-center rounded-full text-lg text-white"
-                        style={{
-                            backgroundColor:
-                                budget.category?.color || "#10B981",
-                        }}
-                    >
-                        {budget.category?.icon || "💰"}
-                    </div>
-
                     <div>
                         <p className="font-medium">{budget.category?.name}</p>
 
