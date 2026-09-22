@@ -40,13 +40,18 @@ class TransferService
             $to = Account::where('user_id', Auth::id())
                 ->findOrFail($data['to_account_id']);
 
+            $amount = $data['amount'];
+            $adminFee = 1500;
+
             $this->balanceService->transfer(
                 $from,
                 $to,
-                $data['amount']
+                $amount,
+                $adminFee
             );
 
             $data['user_id'] = Auth::id();
+            $data['admin_fee'] = $adminFee;
 
             return Transfer::create($data);
         });

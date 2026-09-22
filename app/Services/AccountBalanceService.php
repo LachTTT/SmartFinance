@@ -32,11 +32,14 @@ class AccountBalanceService
     public function transfer(
         Account $from,
         Account $to,
-        float $amount
+        float $amount,
+        float $adminFee = 0
     ): void {
 
-        $this->decrease($from, $amount);
+        // Potong nominal transfer + admin fee dari pengirim
+        $this->decrease($from, $amount + $adminFee);
 
+        // Penerima hanya mendapatkan nominal transfer
         $this->increase($to, $amount);
     }
 }

@@ -21,6 +21,7 @@ class UpdateTransferRequest extends FormRequest
             'to_account_id' => ['required', 'exists:accounts,id', 'different:from_account_id'],
             'amount' => ['required', 'numeric', 'gt:0'],
             'note' => ['nullable', 'string'],
+            'admin_fee' => ['numeric', 'gt:0'],
             'transfer_date' => ['required', 'date'],
         ];
     }

@@ -33,8 +33,6 @@ class CategorySeeder extends Seeder
                 'user_id' => null,
                 'name' => $category['name'],
                 'type' => $category['type'],
-                'icon' => null,
-                'color' => null,
                 'is_default' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

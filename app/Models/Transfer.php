@@ -12,6 +12,7 @@ class Transfer extends Model
         'to_account_id',
         'amount',
         'note',
+        'admin_fee',
         'transfer_date',
     ];
 

@@ -28,6 +28,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->decimal('amount', 15, 2);
+            $table->decimal('admin_fee', 15, 2)->nullable();
 
             $table->text('note')->nullable();
 
