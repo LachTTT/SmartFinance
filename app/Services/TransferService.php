@@ -41,7 +41,7 @@ class TransferService
                 ->findOrFail($data['to_account_id']);
 
             $amount = $data['amount'];
-            $adminFee = 1500;
+            $adminFee = $data['admin_fee'];
 
             $this->balanceService->transfer(
                 $from,
@@ -51,7 +51,6 @@ class TransferService
             );
 
             $data['user_id'] = Auth::id();
-            $data['admin_fee'] = $adminFee;
 
             return Transfer::create($data);
         });

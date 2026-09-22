@@ -57,7 +57,7 @@ export default function TransferForm({ accounts = [], submitLabel, onSubmit }) {
                 type="number"
                 value={data.admin_fee}
                 onChange={(e) => setData("admin_fee", e.target.value)}
-                error={errors.amount}
+                error={errors.admin_fee}
             />
 
             <Input

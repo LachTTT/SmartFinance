@@ -20,7 +20,7 @@ class StoreTransferRequest extends FormRequest
             'from_account_id' => ['required', 'exists:accounts,id'],
             'to_account_id' => ['required', 'exists:accounts,id', 'different:from_account_id'],
             'amount' => ['required', 'numeric', 'gt:0'],
-            'admin_fee' => ['numeric', 'gt:0'],
+            'admin_fee' => ['required', 'numeric', 'gte:0'],
             'note' => ['nullable', 'string'],
             'transfer_date' => ['required', 'date'],
         ];

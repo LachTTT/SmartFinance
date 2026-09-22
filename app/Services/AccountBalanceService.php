@@ -36,10 +36,8 @@ class AccountBalanceService
         float $adminFee = 0
     ): void {
 
-        // Potong nominal transfer + admin fee dari pengirim
         $this->decrease($from, $amount + $adminFee);
 
-        // Penerima hanya mendapatkan nominal transfer
         $this->increase($to, $amount);
     }
 }
