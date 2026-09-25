@@ -5,6 +5,7 @@ export default function SavingTable({
     onEdit,
     onDelete,
     onDeposit,
+    onFinish,
 }) {
     return (
         <div className="overflow-hidden rounded-2xl border">
@@ -34,6 +35,7 @@ export default function SavingTable({
                                 onEdit={onEdit}
                                 onDelete={onDelete}
                                 onDeposit={onDeposit}
+                                onFinish={onFinish}
                             />
                         ))
                     ) : (

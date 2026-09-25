@@ -104,6 +104,11 @@ Route::middleware(['auth', 'verified', 'role:admin,user'])->group(function () {
         [SavingController::class, 'deposit']
     )->name('savings.deposit');
 
+    Route::post(
+        '/savings/finish',
+        [SavingController::class, 'finish']
+    )->name('savings.finish');
+
     /*
     |--------------------------------------------------------------------------
     | Investments

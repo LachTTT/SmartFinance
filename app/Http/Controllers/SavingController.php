@@ -9,6 +9,8 @@ use App\Http\Requests\Saving\StoreSavingRequest;
 use App\Http\Requests\Saving\UpdateSavingRequest;
 use App\Http\Requests\SavingTransaction\StoreSavingTransactionRequest;
 use App\Models\Account;
+use App\Http\Requests\Saving\FinishSavingRequest;
+use App\Models\Category;
 
 class SavingController extends Controller
 {
@@ -20,6 +22,15 @@ class SavingController extends Controller
     {
         return Inertia::render('Saving/Index', [
             'savings' => $this->savingService->getAll(),
+            'accounts' => Account::where('user_id', auth()->id())
+                ->get(),
+
+            'expenseCategories' => Category::where('type', 'expense')
+                ->where(function ($query) {
+                    $query->where('user_id', auth()->id())
+                        ->orWhereNull('user_id');
+                })
+                ->get(),
         ]);
     }
 
@@ -75,5 +86,19 @@ class SavingController extends Controller
         );
 
         return back()->with('success', 'Berhasil menabung.');
+    }
+
+
+
+    public function finish(FinishSavingRequest $request)
+    {
+        $this->savingService->finish(
+            $request->validated()
+        );
+
+        return back()->with(
+            'success',
+            'Saving berhasil diselesaikan.'
+        );
     }
 }
