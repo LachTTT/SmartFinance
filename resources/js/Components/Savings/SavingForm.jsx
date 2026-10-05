@@ -16,6 +16,7 @@ export default function SavingForm({
         title: saving?.title ?? "",
         target_amount: saving?.target_amount ?? "",
         deadline: saving?.deadline ? saving.deadline.split("T")[0] : "",
+        status: saving?.status ?? "active",
     });
 
     const submit = (e) => {

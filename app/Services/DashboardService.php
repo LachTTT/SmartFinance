@@ -102,6 +102,7 @@ class DashboardService
                     'percentage' => $saving->target_amount > 0
                         ? round(($saving->current_amount / $saving->target_amount) * 100, 1)
                         : 0,
+                    'status' => $saving->status,
                 ];
             });
     }

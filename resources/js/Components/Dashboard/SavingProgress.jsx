@@ -1,10 +1,12 @@
 export default function SavingProgress({ savings = [] }) {
+    const activeSavings = savings.filter(
+        (saving) => saving.status === "active" ||  saving.status === "completed",
+    );
+
     return (
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
             <div className="mb-6">
-                <h2 className="text-xl font-bold">
-                    Saving Goals
-                </h2>
+                <h2 className="text-xl font-bold">Saving Goals</h2>
 
                 <p className="text-sm text-gray-500">
                     Track your saving progress
@@ -12,8 +14,8 @@ export default function SavingProgress({ savings = [] }) {
             </div>
 
             <div className="space-y-6">
-                {savings.length ? (
-                    savings.map((saving) => (
+                {activeSavings.length ? (
+                    activeSavings.map((saving) => (
                         <div key={saving.id}>
                             <div className="mb-2 flex justify-between">
                                 <span className="font-medium">
@@ -22,14 +24,14 @@ export default function SavingProgress({ savings = [] }) {
 
                                 <span className="text-sm text-gray-500">
                                     Rp{" "}
-                                    {Number(
-                                        saving.current
-                                    ).toLocaleString("id-ID")}
+                                    {Number(saving.current).toLocaleString(
+                                        "id-ID",
+                                    )}
                                     {" / "}
                                     Rp{" "}
-                                    {Number(
-                                        saving.target
-                                    ).toLocaleString("id-ID")}
+                                    {Number(saving.target).toLocaleString(
+                                        "id-ID",
+                                    )}
                                 </span>
                             </div>
 
@@ -39,7 +41,7 @@ export default function SavingProgress({ savings = [] }) {
                                     style={{
                                         width: `${Math.min(
                                             saving.percentage,
-                                            100
+                                            100,
                                         )}%`,
                                     }}
                                 />
@@ -52,7 +54,7 @@ export default function SavingProgress({ savings = [] }) {
                     ))
                 ) : (
                     <p className="text-center text-gray-500">
-                        No saving goals.
+                        No active saving goals.
                     </p>
                 )}
             </div>
